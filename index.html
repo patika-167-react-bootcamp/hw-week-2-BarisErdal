@@ -125,6 +125,7 @@ state.userList.forEach(person=> {
     if(indexToDel>-1){
       state.userList.splice(indexToDel,1);     
       this.parentNode.parentNode.removeChild(this.parentNode);
+      loadArrToSelect();
     }
     
   })
