@@ -202,7 +202,7 @@ function transaction() {
     indexOfFrom = state.userList.findIndex(user=>user.id === Number(fromUserId));
     indexOfTo = state.userList.findIndex(user=>user.id ===  Number(toUserId));
    
-   if(state.userList[indexOfFrom].balance>0) {
+    if(amount>0) {   if(state.userList[indexOfFrom].balance>0) {
     state.userList[indexOfFrom].balance=Number(state.userList[indexOfFrom].balance)-Number(amount);
     state.userList[indexOfTo].balance=Number(state.userList[indexOfTo].balance)+Number(amount);
     renderUserList();
@@ -210,7 +210,7 @@ function transaction() {
     let idOfFrom=state.userList[indexOfFrom].id;
     let idOfTo=state.userList[indexOfTo].id;
     renderHistory(indexOfFrom, indexOfTo, amount,idOfFrom,idOfTo);
-   } else {alert("Hesabınızda yeterli bakiye bulunmamaktadır!");}
+   } else {alert("Hesabınızda yeterli bakiye bulunmamaktadır!");}} else {alert("Geçerli bir para miktarı girin.")}
     
    
     
