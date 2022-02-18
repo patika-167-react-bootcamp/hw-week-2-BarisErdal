@@ -6,41 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dom Manipulation</title>
   </head>
-  <style>   
+  <style>
+  .body{background-color: #139487;}   
 .container{
   display: grid;
   grid-template-columns: 1fr 2fr; 
   margin: 20px;
   grid-gap: 10px; 
+  
 } 
 .grid-item {
  display: inline-block;
   font-size: 15px;
+  
 }
 .new-user {
   grid-column: 1fr;
   grid-row:  1fr;
-  border: 3px solid #c81a1a;
+  
   height: 50px;
   padding: 1rem; 
+  background-color: #78c5bd;
+  border-radius: 1rem;
     }
 .list { 
   grid-column:1fr ;
   grid-row:auto;
-  border: 3px solid #319c2d;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  background-color: #afcac7;
+  border-radius: 1rem;
 } 
+.list button {
+  margin-left: 3rem;
+}
  .transaction {
-  border: 3px solid #53cece;
+  border-radius: 1rem;
   grid-column:2fr ;
   grid-row: 1fr;
   height: 50px;
   padding: 1rem;
+  background-color: #78c5bd;
     }
  .history{
   grid-column:2fr ;
   grid-row:auto;
-  border: 3px solid #4819b4;
+  background-color: #afcac7;
+  border-radius: 1rem;
 } 
+
+.history button {
+  border-radius: 1rem;
+}
 .container2{
   display: grid;
   grid-template-columns: 1fr 2fr; 
@@ -50,6 +67,7 @@
 .grid-item2 {
  display: inline-block;
   font-size: 15px;
+  
 }
  </style>
 
@@ -77,13 +95,14 @@
   <div class="container2">
     <div class="grid-item2">
       <div class="list">
-        <table id="user-list"> </table>
-            </div>
+        <table id="user-list" style="text-align: left;"> </table>
+      </div>
     </div>
 
     <div class="grid-item2">
-      
+      <h3 style="text-align: center;">Transfer Geçmişi</h3>
       <div class="history">
+        
         <table id="history"></table>
       </div>
     </div>
@@ -94,17 +113,18 @@
     <script>
 const state = {
         userList: [{
-            name: "barış erdal",
+            name: "Barış Erdal",
             balance: 50,
             id: Math.random()
           },{
-            name: "patika ekibi",
-            balance: 20,
+            name: "Patika",
+            balance: 100,
             id: Math.random()
           }],
       };
       renderUserList();
       loadArrToSelect();  
+     
 
 function renderUserList() {
     
@@ -171,6 +191,9 @@ function addUser() {
 function loadArrToSelect() {
    const fromUserTag = document.getElementById("fromUser");
   fromUserTag.innerHTML="";
+  const toUserTag = document.getElementById("toUser");
+  toUserTag.innerHTML="";
+
 
   state.userList.forEach(user=>{
     const optUser  = document.createElement("option");
@@ -178,19 +201,17 @@ function loadArrToSelect() {
     optUser.value = user.id;
     //optUser.setAttribute("idSelect", user.id);
     fromUserTag.appendChild(optUser);
-  }) 
- 
-  const toUserTag = document.getElementById("toUser");
-  toUserTag.innerHTML="";
 
-  state.userList.forEach(user=>{
     const optUserTo  = document.createElement("option");
     optUserTo.text = user.name ;
     optUserTo.value = user.id;
-   // optUserTo.setAttribute("idSelect", user.id);
+    //optUser.setAttribute("idSelect", user.id);
     toUserTag.appendChild(optUserTo);
 
-})   
+
+  }) 
+ 
+ 
 }
 
 function transaction() {
@@ -202,7 +223,7 @@ function transaction() {
     indexOfFrom = state.userList.findIndex(user=>user.id === Number(fromUserId));
     indexOfTo = state.userList.findIndex(user=>user.id ===  Number(toUserId));
    
-    if(amount>0) {   if(state.userList[indexOfFrom].balance>0) {
+    if(amount>0) {   if(state.userList[indexOfFrom].balance>=amount) {
     state.userList[indexOfFrom].balance=Number(state.userList[indexOfFrom].balance)-Number(amount);
     state.userList[indexOfTo].balance=Number(state.userList[indexOfTo].balance)+Number(amount);
     renderUserList();
@@ -210,7 +231,7 @@ function transaction() {
     let idOfFrom=state.userList[indexOfFrom].id;
     let idOfTo=state.userList[indexOfTo].id;
     renderHistory(indexOfFrom, indexOfTo, amount,idOfFrom,idOfTo);
-   } else {alert("Hesabınızda yeterli bakiye bulunmamaktadır!");}} else {alert("Geçerli bir para miktarı girin.")}
+   } else {alert("Hesabınızda yeterli bakiye bulunmamaktadır!");}} else {alert("Gönderilecek miktar boş bırakılamaz")}
     
    
     
@@ -230,6 +251,8 @@ const historyTag=document.getElementById("history");
 const hist  = document.createElement("th");
 const btnCancel= document.createElement("button");
 const trTag = document.createElement("tr");
+
+//console.log(historyTag);
 
     btnCancel.innerText="İşlemi Geri Al"; 
     btnCancel.addEventListener("click",function() {
@@ -254,7 +277,7 @@ nameTo = state.userList[inTo].name;
 //zaman ve tarih hesaplama
 
 let [date, time]= dateAndTime();
-hist.innerHTML=`${date} ${time} saatinde ${nameFrom} hesabından ${nameTo} hesabına  ${amount} TL aktarıldı `;
+hist.innerHTML=`${date} ${time} ${nameFrom} hesabından ${nameTo} hesabına  ${amount} TL aktarıldı `;
 trTag.appendChild(btnCancel);
 trTag.appendChild(hist);
 
