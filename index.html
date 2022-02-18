@@ -223,7 +223,7 @@ function transaction() {
     indexOfFrom = state.userList.findIndex(user=>user.id === Number(fromUserId));
     indexOfTo = state.userList.findIndex(user=>user.id ===  Number(toUserId));
    
-    if(amount>0) {   if(state.userList[indexOfFrom].balance>=amount) {
+    if(amount>0) {   if(state.userList[indexOfFrom].balance>=0) {
     state.userList[indexOfFrom].balance=Number(state.userList[indexOfFrom].balance)-Number(amount);
     state.userList[indexOfTo].balance=Number(state.userList[indexOfTo].balance)+Number(amount);
     renderUserList();
